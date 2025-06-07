@@ -1,35 +1,115 @@
-import streamlit as st #type: ignore
+import streamlit as st  
 import json
-import faiss #type: ignore
-import numpy as np #type: ignore
-from sentence_transformers import SentenceTransformer #type: ignore
+import faiss
+import numpy as np
+from sentence_transformers import SentenceTransformer
+import openai
+import os
+from dotenv import load_dotenv
+from batch_rag.logger import get_logger
 
-st.set_page_config(page_title="Multimodal RAG", layout="wide")
+# Load .env for OpenAI key
+load_dotenv()
+
+logger = get_logger("AppLogger")
 
 @st.cache_resource
 def load_resources():
-    model = SentenceTransformer("all-MiniLM-L6-v2")
-    index = faiss.read_index("text_index.faiss")
-    with open("metadata.json", "r", encoding="utf-8") as f:
+    text_model = SentenceTransformer("all-MiniLM-L6-v2")
+    image_model = SentenceTransformer("clip-ViT-B-32")
+    index = faiss.read_index(r"batch_data/multimodal_index.faiss")
+    with open(r"batch_data/metadata.json", "r", encoding="utf-8") as f:
         articles = json.load(f)
-    return model, index, articles
+    return text_model, image_model, index, articles
 
-model, index, articles = load_resources()
+class RagApplication:
+    def __init__(self):
+        st.set_page_config(page_title="Multimodal RAG", layout="wide")
+        self.client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        self.text_model, self.image_model, self.index, self.articles = load_resources()
 
-st.title("📰 Multimodal RAG News Search")
-st.markdown("Search across **The Batch** articles with text + image results.")
+    def _generate_prompt(self, context: str, question: str) -> str:
+        return f"""You are a helpful assistant. Use ONLY the context provided to answer.
 
-query = st.text_input("Enter your query", "open source AI models")
+        Context:
+        {context}
 
-if query:
-    query_embedding = model.encode([query], convert_to_numpy=True).astype("float32")
-    D, Ind = index.search(query_embedding, k=5)
+        Question:
+        {question}
 
-    st.subheader("Top Matching Articles:")
+        Only answer using information from the context above.
+        If the answer is not present in the context, respond with:
+        "Not found in context."
+        """
 
-    for idx in Ind[0]:
-        a = articles[idx]
-        st.markdown(f"### [{a['title']}]({a['url']})")
-        if a.get("image_url", "").startswith("http"):
-            st.image(a["image_url"], width=400)
-        st.write(a["body"][:500] + "...")
+    def query_openai(self, prompt: str) -> tuple[str, int, float]:
+        try:
+            response = self.client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant that only uses the provided context."},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.7,
+                max_tokens=300
+            )
+            answer = response.choices[0].message.content
+            tokens = response.usage.total_tokens
+            cost = tokens * 0.0015 / 1000
+            logger.info(f"Prompt sent with {tokens} tokens, estimated cost: ${cost:.6f}")
+            return answer, tokens, cost
+        
+        except Exception as e:
+            logger.error(f"OpenAI API error: {e}")
+            return f"OpenAI API error: {e}", 0, 0
+
+    def run(self):
+        st.title(" Multimodal RAG Search + Answer")
+        st.markdown("Search across **The Batch** articles using text + image embeddings, and generate answers.")
+
+        query = st.text_input("Enter your query", "")
+
+        if not query:
+            st.info("Enter a query to get started.")
+            return
+
+        # Encode query
+        text_emb = self.text_model.encode([query], convert_to_numpy=True)
+        img_emb = np.zeros((1, 512), dtype="float32")
+        query_vector = np.hstack((text_emb, img_emb)).astype("float32")
+
+        # Search in FAISS index
+        D, Ind = self.index.search(query_vector, k=3)
+
+        st.subheader("Top Matching Articles")
+        top_articles = []
+
+        for i, idx in enumerate(Ind[0]):
+            a = self.articles[idx]
+            top_articles.append(a)
+            st.markdown(f"### [{a['title']}]({a['url']})")
+            if isinstance(a.get("image_url"), str) and a["image_url"].startswith("http"):
+                st.image(a["image_url"], width=400)
+                st.markdown(f"**Caption**: {a['image_caption']}")
+            st.write(a["body"][:500] + "...")
+
+        if not top_articles:
+            st.warning("Sorry, we couldn't find a relevant article for your query.")
+            return
+
+        # Prepare context and query OpenAI
+        context = "\n\n".join([
+            f"Title: {a['title']}\n"
+            f"Body: {a['body'][:500]}\n"
+            f"Image: {a.get('image_caption', 'No image description')}"
+            for a in top_articles
+        ])        
+        prompt = self._generate_prompt(context=context, question=query)
+
+        with st.spinner("Generating answer..."):
+            answer, tokens_used, cost = self.query_openai(prompt)
+
+        st.subheader("Generated Answer")
+        st.write(answer)
+
+        logger.info(f"**Tokens used:** `{tokens_used}` &nbsp;&nbsp; | &nbsp;&nbsp; **Estimated cost:** `${cost:.6f}`")

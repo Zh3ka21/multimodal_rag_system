@@ -1,128 +1,135 @@
 [
   {
-    "title": "Claude 4 Advances Code Gen, How DeepSeek Built V3 For $5.6m, Google I/O Roundup, O’Reilly Versus OpenAI",
-    "date": "May 28, 2025",
-    "url": "https://www.deeplearning.ai/the-batch/tag/may-28-2025/",
-    "image_url": "https://www.deeplearning.ai/_next/image/?url=https%3A%2F%2Fdl-staging-website.ghost.io%2Fcontent%2Fimages%2F2025%2F05%2FUntitled-design--25-.png&w=3840&q=75",
-    "body": "May 28, 2025\nClaude 4 Advances Code Gen, How DeepSeek Built V3 For $5.6m, Google I/O Roundup, O’Reilly Versus OpenAI\nThe Batch AI News and Insights: I am alarmed by the proposed cuts to U.S. funding for basic research, analyzed here, and the impact this would have for U.S. competitiveness in AI and other areas.\nMay 28, 2025"
+    "title": "DeepSeek-R1 Refreshed, AI’s Energy Conundrum, Agents Get Phished, Machine Translation in Action",
+    "date": "Jun 4, 2025",
+    "url": "https://www.deeplearning.ai/the-batch/tag/jun-4-2025/",
+    "image_url": "https://dl-staging-website.ghost.io/content/images/2025/06/2025.06.04-LETTER-3--1--1.jpg",
+    "body": "Jun 4, 2025\nPhishing for Agents: Columbia University researchers show how to trick trusting AI agents with poisoned links\nResearchers identified a simple way to mislead autonomous agents based on large language models.\nJun 5, 2025"
   },
   {
     "title": "Reinforcement Learning Heats Up, White House Orders Muscular AI Policy, Computer Use Gains Momentum, Fine Control of Fine-Tuning",
     "date": "",
     "url": "https://www.deeplearning.ai/the-batch/issue-286/",
-    "image_url": "https://www.deeplearning.ai/_next/image/?url=https%3A%2F%2Fdl-staging-website.ghost.io%2Fcontent%2Fimages%2F2025%2F02%2FDeepSeek-Byte7_3D-1.jpg&w=3840&q=75",
-    "body": "The Batch\nWeekly Issues\nIssue 286\nPublished\nJan 29, 2025\nReading time\n13 min read\nShare\n\nDear friends,\n\nThe buzz over DeepSeek this week crystallized, for many people, a few important trends that have been happening in plain sight: (i) China is catching up to the U.S. in generative AI, with implications for the AI supply chain. (ii) Open weight models are commoditizing the foundation-model layer, which creates opportunities for application builders. (iii) Scaling up isn’t the only path to AI progress. Despite the massive focus on and hype around processing power, algorithmic innovations are rapidly pushing down training costs.\n\nAbout a week ago, DeepSeek, a company based in China, released DeepSeek-R1, a remarkable model whose performance on benchmarks is comparable to OpenAI’s o1."
+    "image_url": "https://dl-staging-website.ghost.io/content/images/2025/02/DeepSeek-Byte7_3D-1.jpg",
+    "body": "The Batch\nWeekly Issues\nIssue 286\nPublished\nJan 29, 2025\nReading time\n13 min read\nShare\n\nDear friends,\n\nThe buzz over DeepSeek this week crystallized, for many people, a few important trends that have been happening in plain sight: (i) China is catching up to the U.S. in generative AI, with implications for the AI supply chain. (ii) Open weight models are commoditizing the foundation-model layer, which creates opportunities for application builders. (iii) Scaling up isn’t the only path to AI progress. Despite the massive focus on and hype around processing power, algorithmic innovations are rapidly pushing down training costs.\n\nAbout a week ago, DeepSeek, a company based in China, released DeepSeek-R1, a remarkable model whose performance on benchmarks is comparable to OpenAI’s o1. Further, it was released as an open weight model with a permissive MIT license. At Davos last week, I got a lot of questions about it from non-technical business leaders. And on Monday, the stock market saw a “DeepSeek selloff”: The share prices of Nvidia and a number of other U.S. tech companies plunged. (As of the time of writing, they have recovered somewhat.)\n\nHere’s what I think DeepSeek has caused many people to realize:\n\nChina is catching up to the U.S. in generative AI. When ChatGPT was launched in November 2022, the U.S. was significantly ahead of China in generative AI. Impressions change slowly, and so even recently I heard friends in both the U.S. and China say they thought China was behind. But in reality, this gap has rapidly eroded over the past two years. With models from China such as Qwen (which my teams have used for months), Kimi, InternVL, and DeepSeek, China had clearly been closing the gap, and in areas such as video generation there were already moments where China seemed to be in the lead.\n\nI’m thrilled that DeepSeek-R1 was released as an open weight model, with a technical report that shares many details. In contrast, a number of U.S. companies have pushed for regulation to stifle open source by hyping up hypothetical AI dangers such as human extinction"
   },
   {
     "title": "DeepSeek Sharpens Its Reasoning: DeepSeek-R1, an affordable rival to OpenAI’s o1",
     "date": "",
     "url": "https://www.deeplearning.ai/the-batch/deepseek-r1-an-affordable-rival-to-openais-o1/",
-    "image_url": "https://www.deeplearning.ai/_next/image/?url=https%3A%2F%2Fdl-staging-website.ghost.io%2Fcontent%2Fimages%2F2025%2F01%2Funnamed--47--1.png&w=3840&q=75",
-    "body": "The Batch\nMachine Learning Research\nArticle\nDeepSeek Sharpens Its Reasoning\nDeepSeek-R1, an affordable rival to OpenAI’s o1\nMachine Learning Research\nBusiness\nLarge Language Models (LLMs)\nPublished\nJan 22, 2025\nReading time\n4 min read\nShare\n\nA new open model rivals OpenAI’s o1, and it’s free to use or modify.\n\nWhat’s new: DeepSeek released DeepSeek-R1, a large language model that executes long lines of reasoning before producing output. The code and weights are licensed freely for commercial and personal use, including training new models on R1 outputs. The paper provides an up-close look at the training of a high-performance model that implements a chain of thought without explicit prompting. (DeepSeek-R1-lite-preview came out in November with fewer parameters and a different base model.)\n\nMixture of experts (MoE) basics: The MoE architecture uses different subsets of its parameters to process different inputs. Each MoE layer contains a group of neural networks, or experts, preceded by a gating module that learns to choose which one(s) to use based on the input."
+    "image_url": "https://dl-staging-website.ghost.io/content/images/2025/01/unnamed--47--1.png",
+    "body": "The Batch\nMachine Learning Research\nArticle\nDeepSeek Sharpens Its Reasoning\nDeepSeek-R1, an affordable rival to OpenAI’s o1\nMachine Learning Research\nBusiness\nLarge Language Models (LLMs)\nPublished\nJan 22, 2025\nReading time\n4 min read\nShare\n\nA new open model rivals OpenAI’s o1, and it’s free to use or modify.\n\nWhat’s new: DeepSeek released DeepSeek-R1, a large language model that executes long lines of reasoning before producing output. The code and weights are licensed freely for commercial and personal use, including training new models on R1 outputs. The paper provides an up-close look at the training of a high-performance model that implements a chain of thought without explicit prompting. (DeepSeek-R1-lite-preview came out in November with fewer parameters and a different base model.)\n\nMixture of experts (MoE) basics: The MoE architecture uses different subsets of its parameters to process different inputs. Each MoE layer contains a group of neural networks, or experts, preceded by a gating module that learns to choose which one(s) to use based on the input. In this way, different experts learn to specialize in different types of examples. Because not all parameters are used to produce any given output, the network uses less energy and runs faster than models of similar size that use all parameters to process every input.\n\nHow it works: DeepSeek-R1 is a version of DeepSeek-V3-Base that was fine-tuned over four stages to enhance its ability to process a chain of thought (CoT). It’s a mixture-of-experts transformer with 671 billion total parameters, 37 billion of which are active at any given time, and it processes 128,000 tokens of input context. Access to the model via DeepSeek’s API costs $0.55 per million input tokens ($0.14 for cached inputs) and $2.19 per million output tokens"
+  },
+  {
+    "title": "Tumbling Training Costs, Desktop AI Supercomputer, Tighter AI Export Restrictions, Improved Contrastive Loss",
+    "date": "",
+    "url": "https://www.deeplearning.ai/the-batch/issue-284/",
+    "image_url": null,
+    "body": "The Batch\nWeekly Issues\nIssue 284\nPublished\nJan 15, 2025\nReading time\n13 min read\nShare\n\nDear friends,\n\nWriting software, especially prototypes, is becoming cheaper. This will lead to increased demand for people who can decide what to build. AI Product Management has a bright future!\n\nSoftware is often written by teams that comprise Product Managers (PMs), who decide what to build (such as what features to implement for what users) and Software Developers, who write the code to build the product. Economics shows that when two goods are complements — such as cars (with internal-combustion engines) and gasoline — falling prices in one leads to higher demand for the other. For example, as cars became cheaper, more people bought them, which led to increased demand for gas. Something similar will happen in software. Given a clear specification for what to build, AI is making the building itself much faster and cheaper. This will significantly increase demand for people who can come up with clear specs for valuable things to build.\n\nThis is why I’m excited about the future of Product Management, the discipline of developing and managing software products. I’m especially excited about the future of AI Product Management, the discipline of developing and managing AI software products.\n\nMany companies have an Engineer:PM ratio of, say, 6:1. (The ratio varies widely by company and industry, and anywhere from 4:1 to 10:1 is typical.) As coding becomes more efficient, I think teams will need more product management work (as well as design work) as a fraction of the total workforce. Perhaps engineers will step in to do some of this work, but if it remains the purview of specialized Product Managers, then the demand for these roles will grow.\n\nThis change in the composition of software development teams is not yet moving forward at full speed. One major force slowing this shift, particularly in AI Product Management, is that Software Engineers, being technical, are understanding and embracing AI much faster than Product Managers. Even today, most companies have difficulty finding people who know how to develop products and also understand AI, and I expect this shortage to grow.\n\nFurther, AI Product Management requires a different set of skills than traditional software Product Management. It requires:\n\nTechnical proficiency in AI. PMs need to understand what products might be technically feasible to build"
+  },
+  {
+    "title": "Claude 4 Advances Code Gen, How DeepSeek Built V3 For $5.6m, Google I/O Roundup, O’Reilly Versus OpenAI",
+    "date": "May 28, 2025",
+    "url": "https://www.deeplearning.ai/the-batch/tag/may-28-2025/",
+    "image_url": null,
+    "body": "May 28, 2025\nClaude 4 Advances Code Gen, How DeepSeek Built V3 For $5.6m, Google I/O Roundup, O’Reilly Versus OpenAI\nThe Batch AI News and Insights: I am alarmed by the proposed cuts to U.S. funding for basic research, analyzed here, and the impact this would have for U.S. competitiveness in AI and other areas.\nMay 28, 2025"
   },
   {
     "title": "Codex’s Robot Dev Team, Grok’s Fixation on South Africa, Saudi Arabia’s AI Power Play, 4-Bit Efficiency With 16-Bit Accuracy",
     "date": "May 21, 2025",
     "url": "https://www.deeplearning.ai/the-batch/tag/may-21-2025/",
-    "image_url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+    "image_url": null,
     "body": "May 21, 2025\nCodex’s Robot Dev Team, Grok’s Fixation on South Africa, Saudi Arabia’s AI Power Play, 4-Bit Efficiency With 16-Bit Accuracy\nThe Batch AI News and Insights: In the age of AI, large corporations — not just startups — can move fast. I often speak with large companies’ C-suite and Boards about AI strategy and implementation, and would like to share some ideas that are applicable to big companies.\nMay 21, 2025"
   },
   {
     "title": "Recipes For Reasoning, Open and Compact Code Generator, Looser AI Regulations, More Factual Output",
     "date": "May 14, 2025",
     "url": "https://www.deeplearning.ai/the-batch/tag/may-14-2025/",
-    "image_url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+    "image_url": null,
     "body": "May 14, 2025\nThe Value of AI’s Speed Is Underrated: The value of AI-driven productivity is well recognized, but AI-driven speed can create growth, too.\nAI’s ability to make tasks not just cheaper, but also faster, is underrated in its importance in creating business value.\nMay 14, 2025"
   },
   {
     "title": "ChatGPT Grovels, Qwen3 Takes on DeepSeek-R1, Johnson & Johnson Reveals AI Strategy, Easy Reasoning Hack",
     "date": "May 7, 2025",
     "url": "https://www.deeplearning.ai/the-batch/tag/may-7-2025/",
-    "image_url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+    "image_url": null,
     "body": "May 7, 2025\nHot Tips for Speedy Startups: Speed is the most important factor in successful startups. Here are four ways to accelerate your company.\nI’m delighted to announce that AI Fund has closed $190M for our new fund, in an oversubscribed round.\nMay 8, 2025"
   },
   {
     "title": "OpenAI’s Hit Image Generator, Hot AI Startups, Better Recommendations, Music Generation for Pros",
     "date": "Apr 30, 2025",
     "url": "https://www.deeplearning.ai/the-batch/tag/apr-30-2025/",
-    "image_url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+    "image_url": null,
     "body": "Apr 30, 2025\nThe AI Revolution Comes to Grade-School Classrooms: Kira Learning is using AI to help teachers individualize computer-science education and address social-emotional needs.\nI hope we can empower everyone to build with AI. Starting from K-12, we should teach every student AI enabled coding, since this will enable them to become more productive and more empowered adults.\nMay 1, 2025"
   },
   {
     "title": "OpenAI’s Five New Models, Hugging Face’s Open Robot, U.S. Tightens Grip on AI Chips, Text-Only LLMs Go Multimodal",
     "date": "Apr 23, 2025",
     "url": "https://www.deeplearning.ai/the-batch/tag/apr-23-2025/",
-    "image_url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+    "image_url": null,
     "body": "Apr 23, 2025\nHow to Become a Multilingual Coder: AI makes it easy to code in any programming language — especially if you know just one.\nEven though I’m a much better Python than JavaScript developer, with AI assistance, I’ve been writing a lot of JavaScript code recently.\nApr 23, 2025"
   },
   {
     "title": "Google Unveils Gemini 2.5, MCP Gains Momentum, Behind Sam Altman’s Fall and Rise, LLMs That Understand Misspellings",
     "date": "Apr 16, 2025",
     "url": "https://www.deeplearning.ai/the-batch/tag/apr-16-2025/",
-    "image_url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+    "image_url": null,
     "body": "Apr 16, 2025\nWe Iterate on Models. We Can Iterate on Evals, Too: Building automated evals doesn’t need to be a huge investment. Start with a few quick-and-dirty examples and iterate!\nI’ve noticed that many GenAI application projects put in automated evaluations (evals) of the system’s output probably later — and rely on humans to manually examine and judge outputs longer — than they should.\nApr 17, 2025"
   },
   {
     "title": "Inside the Mind of Claude, Llama 4’s Mixture of Vision-Language Experts, More Open Multimodal Models, Neural Net for Tabular Data",
     "date": "Apr 09, 2025",
     "url": "https://www.deeplearning.ai/the-batch/tag/apr-09-2025/",
-    "image_url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+    "image_url": null,
     "body": "Apr 09, 2025\nThe Impact of U.S. Tariffs on AI: Broad tariffs will create challenges for AI and beyond, but I see a few silver linings. Here’s what’s in store.\nI am so sorry that the U.S. is letting down our friends and allies.\nApr 10, 2025"
   },
   {
     "title": "Open Voice-to-Voice With Vision, ChatGPT Creates Emotional Bonds, Human Action in 3D, Web Scrapers Caught in Maze",
     "date": "Apr 02, 2025",
     "url": "https://www.deeplearning.ai/the-batch/tag/apr-02-2025/",
-    "image_url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+    "image_url": null,
     "body": "Apr 02, 2025\nThe Benefits of Lazy Prompting: You don’t always need to provide context when prompting a large language model. A quick prompt can be enough.\nContrary to standard prompting advice that you should give LLMs the context they need to succeed, I find it’s sometimes faster to be lazy and dash off a quick, imprecise prompt and see what happens.\nApr 2, 2025"
   },
   {
     "title": "Compact Vision-Language with Open Weights, Faster Learning, Diffusion in Few Steps, LLMs Aid Tutors",
     "date": "Mar 26, 2025",
     "url": "https://www.deeplearning.ai/the-batch/tag/mar-26-2025/",
-    "image_url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+    "image_url": null,
     "body": "Mar 26, 2025\nFaster Learning for Diffusion Models: Pretrained embeddings accelerate diffusion transformers’ learning\nDiffusion transformers learn faster when they can look at embeddings generated by a pretrained model like DINOv2.\nMar 26, 2025"
   },
   {
     "title": "Inside Google’s Co-Scientist, Copyright Office Weighs Generated Works, Multilingual (and Good at All of Them), Diffusion for Materials Design",
     "date": "Mar 19, 2025",
     "url": "https://www.deeplearning.ai/the-batch/tag/mar-19-2025/",
-    "image_url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+    "image_url": null,
     "body": "Mar 19, 2025\nInside Google’s Co-Scientist, Copyright Office Weighs Generated Works, Multilingual (and Good at All of Them), Diffusion for Materials Design\nThe Batch AI News and Insights: Last Friday on Pi Day, we held AI Dev 25, a new conference for AI Developers.\nMar 20, 2025"
   },
   {
     "title": "DeepSeek-R1 Uncensored, QwQ-32B Puts Reasoning in Smaller Model, Phi-4-multimodal Takes Spoken Input, Training AI May Not Be Fair Use",
     "date": "Mar 12, 2025",
     "url": "https://www.deeplearning.ai/the-batch/tag/mar-12-2025/",
-    "image_url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+    "image_url": null,
     "body": "Mar 12, 2025\nLearn the Language of Software: AI won’t kill programming. There has never been a better time to start coding.\nSome people today are discouraging others from learning programming on the grounds AI will automate it.\nMar 12, 2025"
   },
   {
     "title": "GPT-4.5 Goes Big, Claude 3.7 Reasons, Alexa+ Goes Agentic, Generating Text Like an Image",
     "date": "Mar 05, 2025",
     "url": "https://www.deeplearning.ai/the-batch/tag/mar-05-2025/",
-    "image_url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+    "image_url": null,
     "body": "Mar 05, 2025\nWait Your Turn! Conversation by Voice Versus Text: Text interactions require taking turns, but voices may interrupt or overlap. Here’s how AI is evolving for voice interactions.\nContinuing our discussion on the Voice Stack, I’d like to explore an area that today’s voice-based systems mostly struggle with: Voice Activity Detection (VAD) and the turn-taking paradigm of communication.\nMar 5, 2025"
   },
   {
     "title": "Meta Reads Minds, Big AI Spending Climbs, Deepfakes Appropriate Celeb Likenesses, Reasoning in Vectors",
     "date": "Feb 26, 2025",
     "url": "https://www.deeplearning.ai/the-batch/tag/feb-26-2025/",
-    "image_url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+    "image_url": null,
     "body": "Feb 26, 2025\nWhat I’ve Learned Building Voice Applications: Best practices for building apps based on AI’s evolving voice-in, voice-out stack\nThe Voice Stack is improving rapidly. Systems that interact with users via speaking and listening will drive many new applications.\nFeb 26, 2025"
   },
   {
     "title": "Grok 3 Scales Up, Mobile Apps Generated To Order, Musk Moves On OpenAI, Officials Reverse Course on AI Regulation",
     "date": "Feb 19, 2025",
     "url": "https://www.deeplearning.ai/the-batch/tag/feb-19-2025/",
-    "image_url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+    "image_url": null,
     "body": "Feb 19, 2025\nHow AI Saved a Police Officer’s Life: A police drone located an officer under attack before it was too late. Get ready for many more stories like this.\nLast month, a drone from Skyfire AI was credited with saving a police officer’s life after a dramatic 2 a.m. traffic stop.\nFeb 19, 2025"
-  },
-  {
-    "title": "OpenAI Does Deep Research, Google Goes to War, Alibaba Answers DeepSeek, Web Agents Do Tree Search",
-    "date": "Feb 12, 2025",
-    "url": "https://www.deeplearning.ai/the-batch/tag/feb-12-2025/",
-    "image_url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
-    "body": "Feb 12, 2025\nThe Difference Between “AI Safety” and “Responsible AI”: Talk about “AI safety” obscures an important point; AI isn't inherently unsafe. Instead, let’s talk about “responsible AI.”\nAt the Artificial Intelligence Action Summit in Paris this week, U.S. Vice President J.D. Vance said, “I’m not here to talk about AI safety.\nFeb 12, 2025"
   }
 ]

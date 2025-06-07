@@ -26,14 +26,15 @@ dependencies = [
     "openai (>=1.84.0,<2.0.0)",
     "faiss-cpu (>=1.11.0,<2.0.0)",
     "python-dotenv (>=1.1.0,<2.0.0)",
-    "torchvision (>=0.22.0,<0.23.0)"
+    "torchvision (>=0.22.0,<0.23.0)",
+    "accelerate (>=1.7.0,<2.0.0)",
+    "sentencepiece (>=0.2.0,<0.3.0)"
 ]
 packages = [
     { include = "batch_rag" }
 ]
 
-[mypy]
-ignore_missing_imports = true
+
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
