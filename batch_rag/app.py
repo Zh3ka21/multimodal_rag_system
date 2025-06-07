@@ -1,3 +1,8 @@
+"""
+Streamlit app for performing multimodal retrieval-augmented generation (RAG) on 'The Batch' articles.
+It combines FAISS-based text+image search with OpenAI GPT-based answer generation.
+"""
+
 import streamlit as st  
 import json
 import faiss
@@ -5,6 +10,7 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 import openai
 import os
+from typing import Tuple, List
 from dotenv import load_dotenv
 from batch_rag.logger import get_logger
 
@@ -14,7 +20,17 @@ load_dotenv()
 logger = get_logger("AppLogger")
 
 @st.cache_resource
-def load_resources():
+def load_resources() -> Tuple[SentenceTransformer, SentenceTransformer, faiss.Index, List[dict]]:
+    """
+    Load required models and data for the RAG application.
+
+    Returns:
+        A tuple containing:
+        - text_model: A sentence transformer for text embeddings.
+        - image_model: A sentence transformer (CLIP) for image embeddings.
+        - index: The FAISS index combining text + image vectors.
+        - articles: A list of metadata dictionaries for articles.
+    """
     text_model = SentenceTransformer("all-MiniLM-L6-v2")
     image_model = SentenceTransformer("clip-ViT-B-32")
     index = faiss.read_index(r"batch_data/multimodal_index.faiss")
@@ -23,12 +39,34 @@ def load_resources():
     return text_model, image_model, index, articles
 
 class RagApplication:
+    """
+    Multimodal Retrieval-Augmented Generation (RAG) application using Streamlit.
+
+    Attributes:
+        client (openai.OpenAI): OpenAI API client.
+        text_model (SentenceTransformer): Model for text embeddings.
+        image_model (SentenceTransformer): Model for image embeddings.
+        index (faiss.Index): FAISS index for similarity search.
+        articles (List[dict]): Metadata for indexed articles.
+    """
+    
     def __init__(self):
+        """Initialize the RAG application and load resources."""
         st.set_page_config(page_title="Multimodal RAG", layout="wide")
         self.client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
         self.text_model, self.image_model, self.index, self.articles = load_resources()
 
     def _generate_prompt(self, context: str, question: str) -> str:
+        """
+        Build the prompt for OpenAI completion using provided context and user question.
+
+        Args:
+            context (str): Textual context extracted from top articles.
+            question (str): User query.
+
+        Returns:
+            str: Formatted prompt for OpenAI.
+        """
         return f"""You are a helpful assistant. Use ONLY the context provided to answer.
 
         Context:
@@ -42,7 +80,7 @@ class RagApplication:
         "Not found in context."
         """
 
-    def query_openai(self, prompt: str) -> tuple[str, int, float]:
+    def query_openai(self, prompt: str) -> Tuple[str, int, float]:
         try:
             response = self.client.chat.completions.create(
                 model="gpt-3.5-turbo",
@@ -63,7 +101,16 @@ class RagApplication:
             logger.error(f"OpenAI API error: {e}")
             return f"OpenAI API error: {e}", 0, 0
 
-    def run(self):
+    def run(self) -> None:
+        """
+        Launch the Streamlit interface and handle user interaction.
+        Performs:
+        - Query input
+        - Multimodal retrieval (text + image)
+        - Article preview
+        - Context construction
+        - OpenAI answer generation
+        """
         st.title(" Multimodal RAG Search + Answer")
         st.markdown("Search across **The Batch** articles using text + image embeddings, and generate answers.")
 

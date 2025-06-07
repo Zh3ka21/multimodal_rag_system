@@ -1,4 +1,3 @@
-# batch_processor.py
 import os
 import json
 import faiss
@@ -69,15 +68,12 @@ class BatchProcessor:
         best_idx = probs[0].argmax().item()
         return candidate_captions[best_idx]
 
-    def _extract_real_image_url(self, src):
+    def _extract_real_image_url(self, src: str | None) -> str | None:
         """
         Cleans and resolves the image src to a usable direct URL.
         """
-        if not src:
+        if not src or src.startswith("data:"):
             return None
-
-        if src.startswith("data:"):
-            return None  # Base64 placeholder image
 
         parsed = urlparse(src)
         if "_next/image" in parsed.path:
@@ -95,6 +91,7 @@ class BatchProcessor:
         return urljoin(self.BASE_URL, src)
 
     def extract_articles(self):
+        """Scrapes articles and saves metadata + body content to disk."""
         logger.info("Starting article extraction")       
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True)
@@ -153,6 +150,7 @@ class BatchProcessor:
         logger.info(f"✅ Articles saved to {self.article_path}")
 
     def _backup_articles(self):
+        """Saves a timestamped backup of the article metadata."""
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         backup_path = Path("backups") / f"articles_{timestamp}.json"
         try:
@@ -163,6 +161,7 @@ class BatchProcessor:
             logger.error(f"❌ Failed to backup articles: {e}")
 
     def _truncate_body(self, text: str, max_tokens=500) -> str:
+        """Truncates a body of text to a maximum number of tokens."""
         from transformers import GPT2TokenizerFast
         tokenizer = GPT2TokenizerFast.from_pretrained("gpt2")
         sentences = text.split(". ")
@@ -177,6 +176,7 @@ class BatchProcessor:
         return ". ".join(selected)
 
     def build_index(self):
+        """Builds a FAISS index combining text and image embeddings."""
         logger.info("Building multimodal index")
 
         if not os.path.exists(self.article_path):
@@ -230,5 +230,6 @@ class BatchProcessor:
         logger.info("Index + metadata saved.")
 
     def run_all(self):
+        """Full pipeline runner: scrape + index."""
         self.extract_articles()
         self.build_index()

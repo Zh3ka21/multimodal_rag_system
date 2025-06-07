@@ -8,6 +8,3 @@ if __name__ == "__main__":
     
     app = RagApplication()
     app.run()
-    
-
-# Create a CLI write docs comments make a test.env as example
