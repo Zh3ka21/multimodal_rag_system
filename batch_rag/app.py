@@ -42,7 +42,7 @@ def load_resources() -> tuple[SentenceTransformer, SentenceTransformer, faiss.In
     clip_processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
 
     index = faiss.read_index(r"batch_data/multimodal_index.faiss")
-    with Path.open(r"batch_data/metadata.json", encoding="utf-8") as f:
+    with Path.open(r"batch_data/metadata.json", "r", encoding="utf-8") as f:
         articles = json.load(f)
     return text_model, image_model, index, articles, clip_model, clip_processor
 

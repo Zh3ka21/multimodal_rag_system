@@ -3,6 +3,7 @@ import os
 from datetime import datetime
 from io import BytesIO
 from pathlib import Path
+from typing import List, Optional
 from urllib.parse import parse_qs, urljoin, urlparse
 
 import faiss
@@ -19,10 +20,16 @@ from batch_rag.logger import get_logger
 logger = get_logger("BatchProcessor")
 
 class BatchProcessor:
-    BASE_URL = "https://www.deeplearning.ai"
-    START_URL = "https://www.deeplearning.ai/the-batch"
+    """
+    Handles the ingestion, preprocessing, and indexing of articles from The Batch.
+    Extracts articles and associated images, generates embeddings, and builds a multimodal FAISS index.
+    """
 
-    def __init__(self, output_dir="batch_data"):
+    BASE_URL: str = "https://www.deeplearning.ai"
+    START_URL: str = "https://www.deeplearning.ai/the-batch"
+
+    def __init__(self, output_dir: str = "batch_data") -> None:
+        """Initialize paths, create directories, and load models."""
         self.output_dir = output_dir
         self.article_path = os.path.join(output_dir, "articles.json")
         self.index_path = os.path.join(output_dir, "multimodal_index.faiss")
@@ -38,9 +45,14 @@ class BatchProcessor:
     def _caption_image_clip(self, image: Image.Image) -> str:
         """
         Generates a simple caption for an image using CLIP zero-shot classification.
-        """
 
-        candidate_captions = [
+        Args:
+            image (Image.Image): The input image.
+
+        Returns:
+            str: Selected caption from candidate list.
+        """
+        candidate_captions: List[str] = [
             "Robots building house",
             "Whale with microcircuits(Deepseek)",
             "Bar chart Benchmarks Accuracy",
@@ -50,13 +62,16 @@ class BatchProcessor:
             "Accuracy table of different models",
             "Speedometer",
             "Chart with people photos",
-            "Green text on black background in C","Two people talking seating at computers",
+            "Green text on black background in C",
+            "Two people talking seating at computers",
             "Sneakers",
-            "Female and a male on chaise lounge","","4 Photo with a lot of people",
+            "Female and a male on chaise lounge",
+            "",
+            "4 Photo with a lot of people",
             "Male seating at a computer and female showing thumbs up",
             "Pipeline Flowchart",
             "Pipeline Flowchart Voice stack",
-            "White thermal vision detected person",            
+            "White thermal vision detected person",
         ]
 
         inputs = self.image_processor(
@@ -70,12 +85,18 @@ class BatchProcessor:
             logits_per_image = outputs.logits_per_image
             probs = logits_per_image.softmax(dim=1)
 
-        best_idx = probs[0].argmax().item()
+        best_idx: int = probs[0].argmax().item()
         return candidate_captions[best_idx]
 
-    def _extract_real_image_url(self, src: str | None) -> str | None:
+    def _extract_real_image_url(self, src: Optional[str]) -> Optional[str]:
         """
         Cleans and resolves the image src to a usable direct URL.
+
+        Args:
+            src (Optional[str]): Raw image source URL.
+
+        Returns:
+            Optional[str]: Cleaned and resolved image URL.
         """
         if not src or src.startswith("data:"):
             return None
@@ -88,23 +109,21 @@ class BatchProcessor:
                 return urljoin(self.BASE_URL, real_url) if real_url.startswith("/") else real_url
             return None
 
-        # If already a valid URL, return as-is
         if parsed.scheme in ["http", "https"]:
             return src
 
-        # Otherwise treat as relative and resolve
         return urljoin(self.BASE_URL, src)
 
-    def extract_articles(self):
+    def extract_articles(self) -> None:
         """Scrapes articles and saves metadata + body content to disk."""
-        logger.info("Starting article extraction")       
+        logger.info("Starting article extraction")
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True)
             page = browser.new_page()
             page.goto(self.START_URL)
             page.wait_for_selector("article")
 
-            articles_meta = []
+            articles_meta: List[dict] = []
             articles = page.query_selector_all("article")
             for idx, article in enumerate(articles):
                 try:
@@ -150,30 +169,35 @@ class BatchProcessor:
                 json.dump(articles_meta, f, indent=2, ensure_ascii=False)
 
             self._backup_articles()
-
             browser.close()
         logger.info(f"✅ Articles saved to {self.article_path}")
 
-    def _backup_articles(self):
+    def _backup_articles(self) -> None:
         """Saves a timestamped backup of the article metadata."""
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         backup_path = Path("backups") / f"articles_{timestamp}.json"
         try:
-            with open(
-                self.article_path,
-                "r", encoding="utf-8"
-            ) as src, open(backup_path, "w", encoding="utf-8") as dest:
+            with open(self.article_path, "r", encoding="utf-8") as src, open(backup_path, "w", encoding="utf-8") as dest:
                 dest.write(src.read())
             logger.info(f"📦 Backup created: {backup_path}")
         except Exception as e:
             logger.error(f"❌ Failed to backup articles: {e}")
 
-    def _truncate_body(self, text: str, max_tokens=500) -> str:
-        """Truncates a body of text to a maximum number of tokens."""
+    def _truncate_body(self, text: str, max_tokens: int = 500) -> str:
+        """
+        Truncates a body of text to a maximum number of tokens.
+
+        Args:
+            text (str): Full article body.
+            max_tokens (int): Token limit.
+
+        Returns:
+            str: Truncated text.
+        """
         from transformers import GPT2TokenizerFast
         tokenizer = GPT2TokenizerFast.from_pretrained("gpt2")
         sentences = text.split(". ")
-        selected = []
+        selected: List[str] = []
         token_count = 0
         for sent in sentences:
             tokens = tokenizer.encode(sent)
@@ -183,7 +207,7 @@ class BatchProcessor:
             token_count += len(tokens)
         return ". ".join(selected)
 
-    def build_index(self):
+    def build_index(self) -> None:
         """Builds a FAISS index combining text and image embeddings."""
         logger.info("Building multimodal index")
 
@@ -193,8 +217,8 @@ class BatchProcessor:
         with open(self.article_path, "r", encoding="utf-8") as f:
             articles = json.load(f)
 
-        text_data = []
-        image_embeddings = []
+        text_data: List[str] = []
+        image_embeddings: List[np.ndarray] = []
 
         for idx, a in enumerate(articles):
             text_data.append(f"{a['title']} {a['body']}")
@@ -207,7 +231,6 @@ class BatchProcessor:
                     response = requests.get(url, timeout=5)
                     img = Image.open(BytesIO(response.content)).convert("RGB")
 
-                    # Caption the image and store it
                     caption = self._caption_image_clip(img)
                     a["image_caption"] = caption
 
@@ -225,9 +248,8 @@ class BatchProcessor:
             image_embeddings.append(img_emb)
 
         text_embeddings = self.text_model.encode(text_data, convert_to_numpy=True).astype("float32")
-        image_embeddings = np.array(image_embeddings).astype("float32")
-
-        combined = np.hstack((text_embeddings, image_embeddings))
+        image_embeddings_np = np.array(image_embeddings).astype("float32")
+        combined = np.hstack((text_embeddings, image_embeddings_np))
         index = faiss.IndexFlatL2(combined.shape[1])
         index.add(combined)
 
@@ -237,7 +259,7 @@ class BatchProcessor:
 
         logger.info("Index + metadata saved.")
 
-    def run_all(self):
+    def run_all(self) -> None:
         """Full pipeline runner: scrape + index."""
         self.extract_articles()
         self.build_index()
