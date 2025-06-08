@@ -12,6 +12,8 @@ import openai
 import os
 from typing import Tuple, List
 from dotenv import load_dotenv
+import torch
+from transformers import CLIPModel, CLIPProcessor
 from batch_rag.logger import get_logger
 
 # Load .env for OpenAI key
@@ -33,10 +35,14 @@ def load_resources() -> Tuple[SentenceTransformer, SentenceTransformer, faiss.In
     """
     text_model = SentenceTransformer("all-MiniLM-L6-v2")
     image_model = SentenceTransformer("clip-ViT-B-32")
+    
+    clip_model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
+    clip_processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
+    
     index = faiss.read_index(r"batch_data/multimodal_index.faiss")
     with open(r"batch_data/metadata.json", "r", encoding="utf-8") as f:
         articles = json.load(f)
-    return text_model, image_model, index, articles
+    return text_model, image_model, index, articles, clip_model, clip_processor
 
 class RagApplication:
     """
@@ -54,7 +60,7 @@ class RagApplication:
         """Initialize the RAG application and load resources."""
         st.set_page_config(page_title="Multimodal RAG", layout="wide")
         self.client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-        self.text_model, self.image_model, self.index, self.articles = load_resources()
+        self.text_model, self.image_model, self.index, self.articles, self.clip_model, self.clip_processor = load_resources()
 
     def _generate_prompt(self, context: str, question: str) -> str:
         """
@@ -101,6 +107,12 @@ class RagApplication:
             logger.error(f"OpenAI API error: {e}")
             return f"OpenAI API error: {e}", 0, 0
 
+    def _embed_query_as_image(self, query: str) -> np.ndarray:
+        inputs = self.clip_processor(text=[query], return_tensors="pt", padding=True)
+        with torch.no_grad():
+            emb = self.clip_model.get_text_features(**inputs)[0].cpu().numpy()
+        return emb / np.linalg.norm(emb)
+
     def run(self) -> None:
         """
         Launch the Streamlit interface and handle user interaction.
@@ -122,7 +134,7 @@ class RagApplication:
 
         # Encode query
         text_emb = self.text_model.encode([query], convert_to_numpy=True)
-        img_emb = np.zeros((1, 512), dtype="float32")
+        img_emb = self._embed_query_as_image(query).reshape(1, -1)
         query_vector = np.hstack((text_emb, img_emb)).astype("float32")
 
         # Search in FAISS index

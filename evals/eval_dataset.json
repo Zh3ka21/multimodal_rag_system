@@ -1,0 +1,32 @@
+[
+  {
+    "query": "What are the key advantages of DeepSeek-R1 over GPT models?",
+    "expected_titles": [
+      "DeepSeek Sharpens Its Reasoning: DeepSeek-R1, an affordable rival to OpenAI’s o1"
+    ]
+  },
+  {
+    "query": "Where can I read more about misleading large language models?",
+    "expected_titles": [
+      "DeepSeek-R1 Refreshed, AIs Energy Conundrum, Agents Get Phished, Machine Translation in Action"
+    ]
+  },
+  {
+    "query": "What can you say about U.S. and China models competition?",
+    "expected_titles": [
+      "Reinforcement Learning Heats Up, White House Orders Muscular AI Policy, Computer Use Gains Momentum, Fine Control of Fine-Tuning"
+    ]
+  },
+  {
+    "query": "What will make software writing cheaper?",
+    "expected_titles": [
+      "Tumbling Training Costs, Desktop AI Supercomputer, Tighter AI Export Restrictions, Improved Contrastive Loss"
+    ]
+  },
+  {
+    "query": "Why should we teach students to study AI coding",
+    "expected_titles": [
+      "OpenAIs Hit Image Generator, Hot AI Startups, Better Recommendations, Music Generation for Pros"
+    ]
+  }
+]
