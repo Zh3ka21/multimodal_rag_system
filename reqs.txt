@@ -1,0 +1,13 @@
+streamlit
+sentence-transformers
+Pillow
+chromadb
+torch
+transformers
+tqdm
+langchain_community
+tiktoken
+langchain-openai
+langchainhub
+chromadb
+langchain

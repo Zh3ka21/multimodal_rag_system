@@ -1,1 +1,115 @@
-# multimodal_rag_system
+# 🧠 Multimodal RAG System for The Batch
+
+This is a multimodal Retrieval-Augmented Generation (RAG) system that enables intelligent search and answer generation over news articles from [The Batch](https://www.deeplearning.ai/the-batch/). The system integrates textual and visual data using FAISS for fast similarity search and OpenAI's GPT for high-quality answers.
+
+---
+
+## Features
+
+- Search using **text + visual context** (multimodal retrieval)
+- Generate context-aware answers using **GPT-3.5-turbo**
+- Embeds and indexes both **text and images**
+- Streamlit-based interactive UI
+- Offline evaluation of retrieval performance
+- Built with **Poetry**, **PyTorch**, **Hugging Face Transformers**, **FAISS**, and **OpenAI api**
+
+---
+
+## System Design & Reasoning
+
+### Retrieval
+
+- **Text Embeddings**: `all-MiniLM-L6-v2` (lightweight and fast)
+- **Image Embeddings**: `openai/clip-vit-base-patch32`
+- Combined into a single vector `[text || image]` and stored in a **FAISS** index
+
+### Generation
+
+- **OpenAI GPT-3.5-Turbo** is used for generating context-aware responses
+- Queries are answered **only based on retrieved context** using a controlled prompt
+
+### Query Pipeline
+
+- User types a natural language query
+- Query is encoded as `[text || text-as-image]` using CLIP
+- FAISS retrieves top-3 closest matches from the multimodal index
+- Answer is generated via OpenAI using article titles, summaries, and image captions
+
+---
+
+## Evaluation Results
+
+Evaluation was done using 5 realistic queries and labeled relevant titles.
+
+| Metric         | Result |
+| -------------- | ------ |
+| Top-1 Accuracy | 60%    |
+| Top-3 Recall   | 60%    |
+
+---
+
+## Setup with Poetry
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/Zh3ka21/multimodal_rag_system.git
+cd multimodal-rag-system
+```
+
+### 2. Install Poetry
+
+```bash
+pip install poetry
+```
+
+### 3. Install dependencies
+
+```bash
+poetry install
+```
+
+### 4. Activate the virtual environment
+
+```bash
+poetry shell
+```
+
+### Environment Variables
+
+Create a `.env` file with your OpenAI key:
+
+```env
+OPENAI_API_KEY=sk-...
+```
+
+---
+
+## Run the App
+
+```bash
+streamlit run main.py
+```
+
+This will launch the interactive UI at <http://localhost:8501>.
+
+---
+
+## Project Structure
+
+```
+backups/
+batch_data/             # Stored FAISS index and metadata
+batch_rag/
+├── app.py              # Streamlit app logic
+├── batch_processor.py  # Scraping, embedding, indexing
+├── logger.py           # Logger utility
+evals/
+├── evaluate_retrieval.py  # Retrieval evaluation
+├── eval_dataset.json      # Labeled test queries
+logs/
+tests/
+├── test_batch_processor.py
+.env
+main.py                # Entrypoint to run the app
+```
