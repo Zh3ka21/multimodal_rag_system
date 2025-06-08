@@ -34,7 +34,20 @@ packages = [
     { include = "batch_rag" }
 ]
 
+[tool.mypy]
+python_version = "3.12"
+strict = true
+ignore_missing_imports = true
 
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+fix = true  # Allows autofix
+select = ["E", "F", "I"]
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.16.0"
+ruff = "^0.11.13"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

@@ -1,17 +1,17 @@
-import os
 import json
+import os
+from datetime import datetime
+from io import BytesIO
+from pathlib import Path
+from urllib.parse import parse_qs, urljoin, urlparse
+
 import faiss
 import numpy as np
 import requests
-from io import BytesIO
+import torch
 from PIL import Image
-from urllib.parse import urljoin, urlparse, parse_qs
-from datetime import datetime
-from pathlib import Path
-
 from playwright.sync_api import sync_playwright
 from sentence_transformers import SentenceTransformer
-import torch
 from transformers import CLIPModel, CLIPProcessor
 
 from batch_rag.logger import get_logger
@@ -59,7 +59,12 @@ class BatchProcessor:
             "White thermal vision detected person",            
         ]
 
-        inputs = self.image_processor(text=candidate_captions, images=image, return_tensors="pt", padding=True)
+        inputs = self.image_processor(
+            text=candidate_captions,
+            images=image,
+            return_tensors="pt",
+            padding=True
+        )
         with torch.no_grad():
             outputs = self.image_model(**inputs)
             logits_per_image = outputs.logits_per_image
@@ -154,7 +159,10 @@ class BatchProcessor:
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         backup_path = Path("backups") / f"articles_{timestamp}.json"
         try:
-            with open(self.article_path, "r", encoding="utf-8") as src, open(backup_path, "w", encoding="utf-8") as dest:
+            with open(
+                self.article_path,
+                "r", encoding="utf-8"
+            ) as src, open(backup_path, "w", encoding="utf-8") as dest:
                 dest.write(src.read())
             logger.info(f"📦 Backup created: {backup_path}")
         except Exception as e:

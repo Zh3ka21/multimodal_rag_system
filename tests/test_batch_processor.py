@@ -1,10 +1,12 @@
-import unittest
-import tempfile
-import os
 import json
-from batch_rag.batch_processor import BatchProcessor
+import os
+import tempfile
+import unittest
 from unittest.mock import patch
+
 import faiss
+
+from batch_rag.batch_processor import BatchProcessor
 
 
 class TestBatchProcessor(unittest.TestCase):
