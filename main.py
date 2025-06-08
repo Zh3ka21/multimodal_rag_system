@@ -13,7 +13,7 @@ if __name__ == "__main__":
     # batch.run_all()
     
     # Metrics evaluator 
-    evaluate()
+    # evaluate()
     
     # Rag streamlit application
     app = RagApplication()
