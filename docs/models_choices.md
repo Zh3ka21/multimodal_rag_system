@@ -69,6 +69,6 @@ When selecting models, I prioritized:
 ---
 
 ### Main drawbacks that I faced
-1. As I have a not powerful enough laptop sometimes it takes longer to get everything setup and search.
+1. As I don't have powerful enough laptop sometimes it takes longer to get everything setup and search.
 2. Sometimes search doesn't find relevant articles if rephrased too much.
 
