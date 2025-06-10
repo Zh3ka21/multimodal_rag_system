@@ -93,6 +93,7 @@ streamlit run main.py
 
 ## Optionals information
 
+0. Testing and setuping was performed on Linux.
 1. If you need to rebuild index you can uncomment `batch.build_index()`
 2. If you need to run whole extracting and building index pipeline uncomment `batch.run_all()`. Strongly recommend not to do it, as pictures were picked manually as a result of inability to scrap them using scrapper.
 3. If you are using VScode I recommend you press CTRL + Shift + P -> Developer: Reload Window. Don't forget to choose correct venv in VScode.
