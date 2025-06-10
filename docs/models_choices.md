@@ -65,3 +65,10 @@ When selecting models, I prioritized:
 ---
 
 > This combination delivered a reliable, affordable, and CPU-compatible RAG system suitable for local or limited environments.
+
+---
+
+### Main drawbacks that I faced
+1. As I have a not powerful enough laptop sometimes it takes longer to get everything setup and search.
+2. Sometimes search doesn't find relevant articles if rephrased too much.
+
