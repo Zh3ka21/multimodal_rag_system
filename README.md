@@ -1,10 +1,10 @@
 # 🧠 Multimodal RAG System for The Batch
 
-This is a multimodal Retrieval-Augmented Generation (RAG) system that enables intelligent search and answer generation over news articles from [The Batch](https://www.deeplearning.ai/the-batch/). The system integrates textual and visual data using FAISS for fast similarity search and OpenAI's GPT for high-quality answers.
+This is a multimodal Retrieval-Augmented Generation (RAG) system that enables intelligent search and answer generation over news articles from [The Batch](https://www.deeplearning.ai/the-batch/). The amount of article used as dataset is 19. The system integrates textual and visual data using FAISS for fast similarity search and OpenAI's GPT for high-quality answers.
 
 ---
 
-## Features
+## Main features
 
 - Search using **text + visual context** (multimodal retrieval)
 - Generate context-aware answers using **GPT-3.5-turbo**
